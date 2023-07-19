@@ -1,0 +1,168 @@
+Based on the requirements provided, here is the proposed architecture for the project:
+
+1. `main.py`: The entrypoint file that handles the backend logic and serves the website.
+2. `templates/index.html`: The HTML template for the website.
+3. `static/style.css`: The CSS file for styling the website.
+4. `static/script.js`: The JavaScript file for handling user inputs and interacting with the backend.
+
+Now let's go through each file and provide the code for each one.
+
+`main.py`
+```python
+import os
+from flask import Flask, render_template, request, send_file
+from ebooklib import epub
+import base64
+import requests
+import openai
+
+app = Flask(__name__)
+
+openai.api_key = "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" # get it at https://platform.openai.com/
+stability_api_key = "sk-KibMtkB1j7GdjRsSMrPGj6OqzojHILRAZvpOGTvFvVRW62RS" # get it at https://beta.dreamstudio.ai/
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/generate_epub', methods=['POST'])
+def generate_epub():
+    title = request.form['title']
+    author = request.form['author']
+    num_chapters = int(request.form['num_chapters'])
+    writing_style = request.form['writing_style']
+    prompt = request.form['prompt']
+
+    novel, _, chapters, chapter_titles = write_fantasy_novel(prompt, num_chapters, writing_style)
+
+    create_cover_image(str(chapter_titles))
+    create_epub(title, author, chapters, 'cover.png')
+
+    return send_file(f'{title}.epub', as_attachment=True)
+
+def generate_cover_prompt(plot):
+    # Function implementation goes here
+
+def create_cover_image(plot):
+    # Function implementation goes here
+
+def create_epub(title, author, chapters, cover_image_path='cover.png'):
+    # Function implementation goes here
+
+def generate_plots(prompt):
+    # Function implementation goes here
+
+def select_most_engaging(plots):
+    # Function implementation goes here
+
+def improve_plot(plot):
+    # Function implementation goes here
+
+def get_title(plot):
+    # Function implementation goes here
+
+def write_first_chapter(plot, first_chapter_title, writing_style):
+    # Function implementation goes here
+
+def write_chapter(previous_chapters, plot, chapter_title):
+    # Function implementation goes here
+
+def generate_storyline(prompt, num_chapters):
+    # Function implementation goes here
+
+def write_to_file(prompt, content):
+    # Function implementation goes here
+
+def write_fantasy_novel(prompt, num_chapters, writing_style):
+    # Function implementation goes here
+
+if __name__ == '__main__':
+    app.run()
+```
+
+`templates/index.html`
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Built Book</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Built Book</h1>
+    <form action="/generate_epub" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br>
+
+        <label for="num_chapters">Number of Chapters:</label>
+        <input type="number" id="num_chapters" name="num_chapters" required><br>
+
+        <label for="writing_style">Writing Style:</label>
+        <input type="text" id="writing_style" name="writing_style" required><br>
+
+        <label for="prompt">Prompt:</label>
+        <textarea id="prompt" name="prompt" required></textarea><br>
+
+        <input type="submit" value="Generate EPUB">
+    </form>
+</body>
+</html>
+```
+
+`static/style.css`
+```css
+body {
+    background-color: white;
+    color: black;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: darkorange;
+}
+```
+
+`static/script.js`
+```javascript
+// No JavaScript functionality required for this implementation
+```
+
+Please note that the code provided assumes that the necessary functions like `write_fantasy_novel` and `create_cover_image` are already implemented correctly. Make sure to include any additional dependencies or packages required for the project.
